@@ -48,6 +48,20 @@ module WeixinAuthorize
         upload_news_url = "#{media_base_url}/uploadnews"
         http_post(upload_news_url, {articles: news})
       end
+      
+      # 上传永久素材
+      # https://api.weixin.qq.com/cgi-bin/material/add_material?access_token=ACCESS_TOKEN&type=TYPE
+      #
+      # return:
+      # {
+      #   "media_id":MEDIA_ID,
+      #   "url":URL
+      # }
+      def add_material(media, media_type)
+        file = process_file(media)
+        upload_image_url = "#{material_base_url}/add_material"
+        http_post(upload_image_url, {media: file}, {type: media_type}, 'file')
+      end
 
       # media_id: 需通过基础支持中的上传下载多媒体文件来得到
       # https://file.api.weixin.qq.com/cgi-bin/media/uploadvideo?access_token=ACCESS_TOKEN
@@ -82,7 +96,11 @@ module WeixinAuthorize
       end
 
       private
-
+      
+        def material_base_url
+          "/material"
+        end
+      
         def media_base_url
           "/media"
         end
