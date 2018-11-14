@@ -150,7 +150,7 @@ module WeixinAuthorize
         end
 
         def process_media(uploader)
-          uploader = covert(uploader)
+          # uploader = covert(uploader)
           uploader.file.to_file
         end
 
