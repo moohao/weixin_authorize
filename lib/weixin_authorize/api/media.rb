@@ -62,6 +62,33 @@ module WeixinAuthorize
         upload_image_url = "#{material_base_url}/add_material"
         http_post(upload_image_url, {media: file}, {type: media_type}, 'file')
       end
+      
+      # 新增永久图文素材
+      # {
+      #    "articles": [
+      #      {
+      #        "thumb_media_id":"mwvBelOXCFZiq2OsIU-p",
+      #        "author":"xxx",
+      #        "title":"Happy Day",
+      #        "content_source_url":"www.qq.com",
+      #        "content":"content",
+      #        "digest":"digest"
+      #      },
+      #      {
+      #        "thumb_media_id":"mwvBelOXCFZiq2OsIU-p",
+      #        "author":"xxx",
+      #        "title":"Happy Day",
+      #        "content_source_url":"www.qq.com",
+      #        "content":"content",
+      #        "digest":"digest"
+      #      }
+      #    ]
+      # }
+      # Option: author, content_source_url
+      def add_news(news=[])
+        upload_news_url = "#{material_base_url}/add_news"
+        http_post(upload_news_url, {articles: news})
+      end
 
       # media_id: 需通过基础支持中的上传下载多媒体文件来得到
       # https://file.api.weixin.qq.com/cgi-bin/media/uploadvideo?access_token=ACCESS_TOKEN
