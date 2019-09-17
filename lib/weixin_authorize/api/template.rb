@@ -27,7 +27,7 @@ module WeixinAuthorize
           url: url, topcolor: topcolor, data: data
         }
         unless miniprogram.nil?
-          msg = msg.merge(miniprogram)
+          msg = msg.merge({ miniprogram: miniprogram })
         end
         http_post("/message/template/send", msg)
       end
