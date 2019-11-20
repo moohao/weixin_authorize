@@ -63,6 +63,19 @@ module WeixinAuthorize
         http_post(upload_image_url, {media: file}, {type: media_type}, 'file')
       end
       
+      # 删除永久素材
+      # https://api.weixin.qq.com/cgi-bin/material/del_material?access_token=ACCESS_TOKEN
+      #
+      # return:
+      # {
+      #   "errcode":errcode,
+      #   "errmsg":errmsg
+      # }
+      def del_material(media_id)
+        upload_image_url = "#{material_base_url}/del_material"
+        http_post(upload_image_url, {media_id: media_id})
+      end
+      
       # 新增永久图文素材
       # {
       #    "articles": [
