@@ -149,38 +149,13 @@ module WeixinAuthorize
           return media if media.is_a?(File) && jpep?(media)
 
           media_url = media
-          uploader  = WeixinUploader.new
 
           if http?(media_url) # remote
-            uploader.download!(media_url.to_s)
+            media = download_remote_file(media_url)
           else # local
-            media_file = media.is_a?(File) ? media : File.new(media_url)
-            uploader.cache!(media_file)
+            media = media.is_a?(File) ? media : File.new(media_url)
           end
-          file = process_media(uploader)
-          CarrierWave.clean_cached_files! # clear last one day cache
-          file
-        end
-
-        def process_media(uploader)
-          # uploader = covert(uploader)
-          uploader.file.to_file
-        end
-
-        # JUST ONLY FOR JPG IMAGE
-        def covert(uploader)
-          # image process
-          unless (uploader.file.content_type =~ /image/).nil?
-            if !jpep?(uploader.file)
-              require "mini_magick"
-              # covert to jpeg
-              image = MiniMagick::Image.open(uploader.path)
-              image.format("jpg")
-              uploader.cache!(File.open(image.path))
-              image.destroy! # remove /tmp from MinMagick generate
-            end
-          end
-          uploader
+          media
         end
 
         def http?(uri)
@@ -202,6 +177,23 @@ module WeixinAuthorize
           MIME::Types.type_for(media_path).first.content_type
         end
 
+        def download_remote_file(url)
+          base_path = '/tmp/download_remote_file'
+          if File.exist?(base_path)
+            FileUtils.rm_r(Dir["#{base_path}/*"])
+          else
+            FileUtils.mkdir_p(base_path, mode: 777)
+          end
+          local_path = "#{base_path}/#{Time.now.to_i}_#{rand(999_999)}.#{url.split('.').last}"
+          require 'open-uri'
+          open(url) do |image|
+            File.open(local_path, 'wb') do |file|
+              file.write(image.read)
+            end
+          end
+          raise 'download remote file faid' unless File.exist?(local_path)
+          File.new(local_path)
+        end
     end
   end
 end
