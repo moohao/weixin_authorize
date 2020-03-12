@@ -178,15 +178,9 @@ module WeixinAuthorize
         end
 
         def download_remote_file(url)
-          base_path = "#{Rails.root}/tmp/download_remote_file"
-          if File.exist?(base_path)
-            FileUtils.rm_r(Dir["#{base_path}/*"])
-          else
-            FileUtils.mkdir_p(base_path, mode: 777)
-          end
-          local_path = "#{base_path}/#{Time.now.to_i}_#{rand(999_999)}.#{url.split('.').last}"
+          local_path = "#{Rails.root}/tmp/#{Time.now.to_i}_#{rand(999_999)}.#{url.split('.').last}"
           require 'open-uri'
-          open(url) do |image|
+          URI.open(url) do |image|
             File.open(local_path, 'wb') do |file|
               file.write(image.read)
             end
