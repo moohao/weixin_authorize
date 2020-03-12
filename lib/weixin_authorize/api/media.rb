@@ -178,7 +178,7 @@ module WeixinAuthorize
         end
 
         def download_remote_file(url)
-          base_path = "#{File.expand_path('../..', __FILE__)}/tmp/download_remote_file"
+          base_path = "#{Rails.root}/tmp/download_remote_file"
           if File.exist?(base_path)
             FileUtils.rm_r(Dir["#{base_path}/*"])
           else
