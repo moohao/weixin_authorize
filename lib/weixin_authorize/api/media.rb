@@ -132,8 +132,9 @@ module WeixinAuthorize
       # }
       def upload_image(image)
         file = process_file(image)
-        upload_image_url = "#{media_base_url}/uploadimg"
-        http_post(upload_image_url, {media: file}, {type: 'image'}, 'file')
+        # upload_image_url = "#{media_base_url}/uploadimg"
+        # http_post(upload_image_url, {media: file}, {type: 'image'}, 'file')
+        material_post('https://api.weixin.qq.com/cgi-bin/media/uploadimg', {media: file, multipart: true})
       end
 
       private

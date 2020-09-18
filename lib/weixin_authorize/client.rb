@@ -81,8 +81,9 @@ module WeixinAuthorize
       WeixinAuthorize.http_post_without_token(url, post_body, url_params, endpoint)
     end
 
-    def material_post(url, post_body={}, type)
-      url = "#{url}?access_token=#{get_access_token}&type=#{type}"
+    def material_post(url, post_body={}, type = nil)
+      url = "#{url}?access_token=#{get_access_token}"
+      url += "&type=#{type}" if type
       res = RestClient.post(url, post_body)
       WeixinAuthorize.load_json(res)
     end
