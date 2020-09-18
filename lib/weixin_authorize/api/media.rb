@@ -60,7 +60,7 @@ module WeixinAuthorize
       def add_material(media, media_type)
         file = process_file(media)
         upload_image_url = "#{material_base_url}/add_material"
-        http_post(upload_image_url, {media: file}, {type: media_type}, 'file')
+        http_post(upload_image_url, {media: file}, {type: media_type})
       end
       
       # 删除永久素材
