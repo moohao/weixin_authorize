@@ -47,6 +47,10 @@ module WeixinAuthorize
       if endpoint == "plain" || endpoint == CUSTOM_ENDPOINT
         post_body = JSON.dump(post_body)
       end
+      # formdata
+      if endpoint == "file"
+        post_body = post_body.merge({multipart: true})
+      end
       load_json(resource(post_api_url).post(post_body, params: url_params))
     end
 
@@ -77,7 +81,7 @@ module WeixinAuthorize
     end
 
     def file_endpoint
-      "http://file.api.weixin.qq.com/cgi-bin"
+      "https://api.weixin.qq.com/cgi-bin"
     end
 
     def mp_endpoint(url)

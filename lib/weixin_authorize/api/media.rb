@@ -59,9 +59,8 @@ module WeixinAuthorize
       # }
       def add_material(media, media_type)
         file = process_file(media)
-        # upload_image_url = "#{material_base_url}/add_material"
-        # http_post(upload_image_url, {media: file, multipart: true}, {type: media_type})
-        material_post('https://api.weixin.qq.com/cgi-bin/material/add_material', {media: file, multipart: true}, media_type)
+        upload_image_url = "#{material_base_url}/add_material"
+        http_post(upload_image_url, {media: file}, {type: media_type}, 'file')
       end
       
       # 删除永久素材
@@ -132,9 +131,8 @@ module WeixinAuthorize
       # }
       def upload_image(image)
         file = process_file(image)
-        # upload_image_url = "#{media_base_url}/uploadimg"
-        # http_post(upload_image_url, {media: file}, {type: 'image'}, 'file')
-        material_post('https://api.weixin.qq.com/cgi-bin/media/uploadimg', {media: file, multipart: true})
+        upload_image_url = "#{media_base_url}/uploadimg"
+        http_post(upload_image_url, {media: file}, {}, 'file')
       end
 
       private
