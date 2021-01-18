@@ -18,8 +18,8 @@ module WeixinAuthorize
       # https://api.weixin.qq.com/cgi-bin/message/mass/send?access_token=ACCESS_TOKEN
       # if mpvideo,
       # media_info= {"media_id" => media_id, "title" => "title", "description" => "description"}
-      def mass_with_openids(openids, media_info, msgtype="mpnews")
-        openid_option = {touser: openids}
+      def mass_with_openids(openids, media_info, msgtype="mpnews", send_ignore_reprint=0)
+        openid_option = {touser: openids, send_ignore_reprint: send_ignore_reprint}
         media = generate_media(msgtype, media_info, openid_option)
         mass_url = "#{mass_base_url}/send"
         http_post(mass_url, media)
